@@ -5,13 +5,16 @@
 #include "health.h"
 #include "blocks.h"
 
-Game::Game(QWidget *parent):QGraphicsView(parent){
-    scene = new QGraphicsScene(0,0,600,800);//600 horizontally, 800 vertically
+Game::Game(QWidget *parent) : QGraphicsView(parent) {
+    scene = new QGraphicsScene(0, 0, 600, 800); // 600 horizontally, 800 vertically
     setScene(scene);
-   // setMouseTracking(true);
+
+    // Disable scroll bars
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    // Resize the view to match the scene size
+    setFixedSize(scene->width(), scene->height());
 }
 
 void Game:: startgame(){

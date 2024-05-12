@@ -9,6 +9,7 @@
 #include "blocks.h"
 #include <QBrush>
 #include "player.h"
+#include <QGraphicsScene>
 extern Game * game;
 
 Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsRectItem(parent){
@@ -19,7 +20,7 @@ Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsRectItem(parent){
     QPen redpen(Qt::red);
     redpen.setWidth(3);
     moveX=0;
-    moveY=0;//start position
+    moveY=-5;
 
     QTimer * timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
@@ -28,57 +29,58 @@ Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsRectItem(parent){
 double Ball::getcenter(){
     return x() + rect().width()/2;
 }
-void Ball::reverseball(){
-    //check if a ball is out of bound
-    double width = game->width();
-    double height = game->height();
-    //check from the top
-    if(pos().y()<=0){
-        moveY=-1*moveY;
-    }
-    //left edge
-    if(pos().x()<=0){
-        moveX=-1*moveX;
-    }
-    //right edge
-    if(pos().x()>=width){
-        moveX=-1*moveX;
-    }
-}
-
-void Ball::move(){
+void Ball::blockcollision(){
     QList<QGraphicsItem *> colliding_items = collidingItems();
-    double height = game->height();
-    for (size_t i = 0, n = colliding_items.size(); i < n; ++i){
+    for (size_t i = 0, n = colliding_items.size(); i < n; ++i) {
         Blocks* block = dynamic_cast<Blocks*>(colliding_items[i]);
-        Player* player = dynamic_cast<Player*>(colliding_items[i]);
-        if(block){
-            game->score->increase();//need to create a score object in game class
-            double by= block->pos().y();
-            double bx= block->pos().x();
-            if (pos().y()>by+10 || pos().y()<by+10){
-                moveY=-1*moveY;
+        if (block) {
+            game->score->increase();
+            // Remove block from scene if it exists in the scene
+            if (block->scene()) {
+                game->scene->removeItem(block);
             }
-            if (pos().x()>bx+10 || pos().x()<bx+10){
-                moveX=-1*moveX;
+            // Delete block (if not already deleted)
+            if (block->scene()) {
+                delete block;
             }
-
-            // delete block(s)
-            game->scene->removeItem(block);
-            delete block;
-        }
-        if(player){
-            moveY=-1*moveY;// vertical direction
-            //get horizontal direction
-            moveX=(getcenter()-player->getMidPoint());//check if this works well
+            moveY = -moveY;
             return;
         }
-        if (pos().y()>height){
-            game->health->decrease();//recheck when health decreases
+    }
+}
+void Ball::playercollision(){
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for (size_t i = 0, n = colliding_items.size(); i < n; ++i) {
+        Player* player = dynamic_cast<Player*>(colliding_items[i]);
+        if (player) {
+            game->score->increase();
+            // Remove player from scene if it exists in the scene
+            if (player->scene()) {
+                game->scene->removeItem(player);
+            }
+            // Delete player (if not already deleted)
+            if (player->scene()) {
+                delete player;
+            }
+            moveY = -moveY;
+            return;
         }
     }
+}
+void Ball::move(){
+    double height = game->height();
+    blockcollision();
+    playercollision();
+    // Handle out of bounds and continue movement
+    if (pos().y()>height){
+        game->health->decrease();//recheck when health decreases
+    }
+    if (pos().y() <= 0) {
+        moveY = -moveY; // Reverse vertical direction
+    }
+    if (pos().x() <= 0 || pos().x() >= game->width()) {
+        moveX = -moveX; // Reverse horizontal direction
+    }
 
-    reverseball();
     moveBy(moveX,moveY);
 }
-

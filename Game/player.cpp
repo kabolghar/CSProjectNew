@@ -31,13 +31,5 @@ void Player::keyPressEvent(QKeyEvent *event)
         if(x()+80<800)
             setPos(x()+10,y());
     }
-   /* else if(event->key()== Qt::Key_Up)
 
-    {
-        if(y()>0)
-            setPos(x(),y()-10);
-    }
-    else if(event->key()== Qt::Key_Down)
-        if(y()+80<600)
-            setPos(x(),y()+10);*/ //player only moves horizontally
-    }
+}

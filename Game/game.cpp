@@ -6,11 +6,12 @@
 #include "blocks.h"
 
 Game::Game(QWidget *parent):QGraphicsView(parent){
-    scene = new QGraphicsScene(0,0,600,800);
+    scene = new QGraphicsScene(0,0,600,800);//600 horizontally, 800 vertically
     setScene(scene);
-    setMouseTracking(true);
+   // setMouseTracking(true);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 }
 
 void Game:: startgame(){
@@ -18,8 +19,10 @@ void Game:: startgame(){
     ball->setPos(300,700);
     scene->addItem(ball);
     Player *player= new Player;
-    player->setPos(250,700);
-    //scene->addItem(player); ERROR FROM THIS LINE CRASHING ENTIRE CODE (WILL BE DEBUGGED BY MILESTONE 2)
+    player->setPos(250,775);
+    scene->addItem(player);
+    player->setFlag(QGraphicsItem::ItemIsFocusable);
+    player->setFocus();
     createbl();
 }
 

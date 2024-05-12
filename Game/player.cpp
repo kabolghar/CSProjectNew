@@ -1,13 +1,16 @@
 #include "player.h"
 #include "QtGui/qevent.h"
 #include <QBrush>
+#include <QGraphicsScene>
+#include <QKeyEvent>
 
 Player::Player(QGraphicsItem *parent){
     // draw rect
-    setRect(0,0,60,10);
+    setRect(0,0,100,10);
     QBrush brush;
     brush.setColor(Qt::white);
     setBrush(brush);
+
 }
 
 double Player::getMidPoint(){
@@ -16,28 +19,25 @@ double Player::getMidPoint(){
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key()== Qt::Key_Left || event->key() == Qt::Key_A)
+    if(event->key()== Qt::Key_Left)
     {
         if(x()>0)
         {
             setPos(x()-10,y());
         }
     }
-    else if(event->key()== Qt::Key_Right || event->key() == Qt::Key_D)
-
+    else if(event->key()== Qt::Key_Right)
     {
         if(x()+80<800)
             setPos(x()+10,y());
     }
-    else if(event->key()== Qt::Key_Up || event->key() == Qt::Key_W)
+   /* else if(event->key()== Qt::Key_Up)
 
     {
         if(y()>0)
             setPos(x(),y()-10);
     }
-    else if(event->key()== Qt::Key_Down || event->key() == Qt::Key_S)
-
-
+    else if(event->key()== Qt::Key_Down)
         if(y()+80<600)
-            setPos(x(),y()+10);
+            setPos(x(),y()+10);*/ //player only moves horizontally
     }

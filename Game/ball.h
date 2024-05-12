@@ -8,6 +8,9 @@ class Ball:  public QObject, public QGraphicsRectItem{
 public:
     Ball(QGraphicsItem* parent=nullptr);
     void reverseball();
+    double getcenter();
+    void playercollision();
+    void blockcollision();
 
 public slots:
     void move();

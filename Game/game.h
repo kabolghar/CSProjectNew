@@ -22,6 +22,7 @@ public:
     void startgame();
     void genblocks(int gen);
     void createbl();
+    bool allblocksremoved();
 };
 
 #endif // GAME_H

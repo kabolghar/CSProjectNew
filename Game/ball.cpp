@@ -13,22 +13,16 @@
 #include <QDebug>
 extern Game * game;
 
-Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsRectItem(parent){
-
-    setRect(0,0,30,30);
-    QBrush bluebrush(Qt::blue);
-    setBrush(bluebrush);
-    QPen redpen(Qt::red);
-    redpen.setWidth(3);
+Ball::Ball(const QString& imagePath, QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(QPixmap(imagePath).scaled(35, 35), parent){
     moveX=0;
-    moveY=-5;
+    moveY=-7;
 
     QTimer * timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(50);
+    timer->start(30);
 }
 double Ball::getcenter(){
-    return x() + rect().width()/2;
+    return x() + pixmap().width() / 2.0;
 }
 void Ball::blockcollision(){
     QList<QGraphicsItem *> colliding_items = collidingItems();
@@ -36,7 +30,6 @@ void Ball::blockcollision(){
         Blocks* block = dynamic_cast<Blocks*>(colliding_items[i]);
         if (block) {
             qDebug() << "Ball collided with block";
-            //game->score->increase();//this line causes a crash
             // Remove block from scene if it exists in the scene
             if (block->scene()) {
                 qDebug() << "block removed from scene";
@@ -44,6 +37,10 @@ void Ball::blockcollision(){
                 delete block;
             }
             moveY = -moveY;
+            //if it collides from the side chanve movex
+            if (pos().x() > (block->pos().x() + 10) || block->pos().x() > (pos().x()+10) ){
+                moveX = - moveX;
+            }
             return;
         }
     }
@@ -67,14 +64,17 @@ void Ball::move(){
     if (pos().y()>height){
         qDebug() << "health decrease is called " ;
         game->health->decrease();//recheck when health decreases
-
+        moveY = -moveY;
     }
+
     if (pos().y() <= 0) {
         moveY = -moveY; // Reverse vertical direction
     }
     if (pos().x() <= 0 || pos().x() >= game->width()) {
         moveX = -moveX; // Reverse horizontal direction
     }
-
+    if (game->allblocksremoved()) {
+        qDebug() << "Player wins!";
+    }
     moveBy(moveX,moveY);
 }

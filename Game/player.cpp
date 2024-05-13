@@ -7,10 +7,8 @@
 Player::Player(QGraphicsItem *parent){
     // draw rect
     setRect(0,0,100,10);
-    QBrush brush;
-    brush.setColor(Qt::white);
+    QBrush brush(Qt::white);
     setBrush(brush);
-
 }
 
 double Player::getMidPoint(){

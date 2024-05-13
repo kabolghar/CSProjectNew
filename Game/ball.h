@@ -3,10 +3,10 @@
 #include <QGraphicsRectItem>
 #include <QObject>
 
-class Ball:  public QObject, public QGraphicsRectItem{
+class Ball:  public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 public:
-    Ball(QGraphicsItem* parent=nullptr);
+    Ball(const QString& imagePath, QGraphicsItem* parent=nullptr);
     double getcenter();
     void blockcollision();
     void playercollision();

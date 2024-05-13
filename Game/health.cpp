@@ -25,7 +25,7 @@ void Health::decrease() {
         //game->scene->clear();
     } else {
         // Create a new ball
-        Ball *ball = new Ball;
+        Ball *ball = new Ball("C:/Users/aisha/Desktop/AUC/spring23/cs2/projectt/CSProject/Ball-PNG.png");
         ball->setPos(300, 700);
         game->scene->addItem(ball);
     }

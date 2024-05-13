@@ -4,7 +4,7 @@
 class Blocks: public QGraphicsRectItem{
 
 public:
-    Blocks(QGraphicsItem* parent=nullptr);
+    Blocks(QColor color, QGraphicsItem* parent=nullptr);
 };
 
 #endif // BLOCKS_H

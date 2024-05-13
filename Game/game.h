@@ -23,6 +23,8 @@ public:
     void genblocks(int gen);
     void createbl();
     bool allblocksremoved();
+    static void nextlevel();
+    static void exitgame();
 };
 
 #endif // GAME_H

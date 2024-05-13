@@ -11,15 +11,16 @@
 #include "player.h"
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QPushButton>
 extern Game * game;
-
+extern int levels=1;
 Ball::Ball(const QString& imagePath, QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(QPixmap(imagePath).scaled(35, 35), parent){
     moveX=0;
     moveY=-7;
 
     QTimer * timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(30);
+    timer->start((5-levels)*10);// change to variable according to level
 }
 double Ball::getcenter(){
     return x() + pixmap().width() / 2.0;
@@ -75,6 +76,27 @@ void Ball::move(){
     }
     if (game->allblocksremoved()) {
         qDebug() << "Player wins!";
+        if (levels<=5){
+           QMessageBox msgbox;
+            msgbox.setWindowTitle("Level Over");
+            msgbox.setText("You've completed the level.");
+            msgbox.addButton(QMessageBox::Close);
+            QPushButton *nextLevelButton = new QPushButton("Next Level");
+            connect(nextLevelButton, &QPushButton::clicked, this, Game::nextlevel);
+            msgbox.addButton(nextLevelButton, QMessageBox::AcceptRole);
+
+            msgbox.exec();
+        }
+        else{
+            QMessageBox msgboxx;
+            msgboxx.setWindowTitle("You Have Won");
+            msgboxx.setText("Cngratulations! You Have Completed All Levels.");
+            QPushButton *nextLevelButton = new QPushButton("Exit");
+            connect(nextLevelButton, &QPushButton::clicked, this, Game::exitgame);
+            msgboxx.addButton(nextLevelButton, QMessageBox::AcceptRole);
+
+            msgboxx.exec();
+        }
     }
     moveBy(moveX,moveY);
 }

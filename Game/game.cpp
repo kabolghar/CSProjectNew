@@ -6,8 +6,9 @@
 #include "blocks.h"
 #include <QScreen>
 
+
 Game::Game(QWidget *parent) : QGraphicsView(parent) {
-    scene = new QGraphicsScene(0, 0, 600, 800); // 600 horizontally, 800 vertically
+    scene = new QGraphicsScene(0, 0, 67*3*levels, 800); // 600 horizontally, 800 vertically
     scene->setBackgroundBrush(QBrush(Qt::black));
     setScene(scene);
 
@@ -21,10 +22,10 @@ Game::Game(QWidget *parent) : QGraphicsView(parent) {
 
 void Game:: startgame(){
     Ball *ball= new Ball("C:/Users/aisha/Desktop/AUC/spring23/cs2/projectt/CSProject/Ball-PNG.png");
-    ball->setPos(300,700);
+    ball->setPos((67*3*levels)/2,700);
     scene->addItem(ball);
     Player *player= new Player;
-    player->setPos(250,775);
+    player->setPos((((67*3*levels)/2)-100)/2,775);
     scene->addItem(player);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
@@ -36,8 +37,8 @@ void Game:: startgame(){
 
 void Game::createbl(){
    QColor colors[] = {Qt::red, Qt::green, Qt::yellow, Qt::blue, Qt::cyan, Qt::magenta};
-   for(int i=0;i<9;i++){
-        for(int j=0;j<4;j++){
+    for(int i=0;i<(levels*3);i++){//change according to level
+        for(int j=0;j<(levels*2);j++){
            QColor color = colors[(i + j) % 6];
             Blocks *block = new Blocks(color);
             block->setPos(i*64,j*64);
@@ -55,4 +56,12 @@ bool Game::allblocksremoved(){
     }
     // If no blocks are found, return true
     return true;
+}
+void Game::nextlevel(){
+    levels++;
+    //close game instance
+    //open a new one
+}
+void Game::exitgame(){
+    //handle exiting the game
 }

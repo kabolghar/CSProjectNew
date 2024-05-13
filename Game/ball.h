@@ -3,6 +3,7 @@
 #include <QGraphicsRectItem>
 #include <QObject>
 
+extern int levels;
 class Ball:  public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 public:

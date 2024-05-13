@@ -10,6 +10,7 @@
 #include <QBrush>
 #include "player.h"
 #include <QGraphicsScene>
+#include <QDebug>
 extern Game * game;
 
 Ball::Ball(QGraphicsItem *parent): QObject(), QGraphicsRectItem(parent){
@@ -34,13 +35,12 @@ void Ball::blockcollision(){
     for (size_t i = 0, n = colliding_items.size(); i < n; ++i) {
         Blocks* block = dynamic_cast<Blocks*>(colliding_items[i]);
         if (block) {
-            game->score->increase();
+            qDebug() << "Ball collided with block";
+            //game->score->increase();//this line causes a crash
             // Remove block from scene if it exists in the scene
             if (block->scene()) {
+                qDebug() << "block removed from scene";
                 game->scene->removeItem(block);
-            }
-            // Delete block (if not already deleted)
-            if (block->scene()) {
                 delete block;
             }
             moveY = -moveY;
@@ -53,16 +53,8 @@ void Ball::playercollision(){
     for (size_t i = 0, n = colliding_items.size(); i < n; ++i) {
         Player* player = dynamic_cast<Player*>(colliding_items[i]);
         if (player) {
-            game->score->increase();
-            // Remove player from scene if it exists in the scene
-            if (player->scene()) {
-                game->scene->removeItem(player);
-            }
-            // Delete player (if not already deleted)
-            if (player->scene()) {
-                delete player;
-            }
             moveY = -moveY;
+            moveX=(moveX+getcenter()-player->getMidPoint())/10;
             return;
         }
     }
@@ -73,7 +65,9 @@ void Ball::move(){
     playercollision();
     // Handle out of bounds and continue movement
     if (pos().y()>height){
+        qDebug() << "health decrease is called " ;
         game->health->decrease();//recheck when health decreases
+
     }
     if (pos().y() <= 0) {
         moveY = -moveY; // Reverse vertical direction

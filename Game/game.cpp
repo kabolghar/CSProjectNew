@@ -26,6 +26,9 @@ void Game:: startgame(){
     scene->addItem(player);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
+    health=new Health;
+    health->setPos(health->x(),health->y()+25);
+    scene->addItem(health);
     createbl();
 }
 

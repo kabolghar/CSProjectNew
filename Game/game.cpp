@@ -21,7 +21,7 @@ Game::Game(QWidget *parent) : QGraphicsView(parent) {
 }
 
 void Game:: startgame(){
-    Ball *ball= new Ball("C:/Users/aisha/Desktop/AUC/spring23/cs2/projectt/CSProject/Ball-PNG.png");
+    Ball *ball= new Ball(":/resources/Resources/Ball.png");
     ball->setPos((67*3*levels)/2,700);
     scene->addItem(ball);
     Player *player= new Player;

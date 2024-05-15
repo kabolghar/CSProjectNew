@@ -1,0 +1,11 @@
+debug/ball.o
+debug/blocks.o
+debug/game.o
+debug/health.o
+debug/main.o
+debug/mainmenu.o
+debug/player.o
+debug/score.o
+debug/qrc_Resources.o
+debug/moc_ball.o
+debug/moc_mainmenu.o

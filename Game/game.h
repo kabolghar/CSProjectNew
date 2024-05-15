@@ -11,7 +11,7 @@
 #include "health.h"
 #include "player.h"
 
-
+extern int levels;
 class Game:public QGraphicsView
 {
 public:

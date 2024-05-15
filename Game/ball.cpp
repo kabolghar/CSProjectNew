@@ -13,7 +13,7 @@
 #include <QDebug>
 #include <QPushButton>
 extern Game * game;
-extern int levels=1;
+//extern int levels=1;
 Ball::Ball(const QString& imagePath, QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(QPixmap(imagePath).scaled(35, 35), parent){
     moveX=0;
     moveY=-7;
@@ -77,12 +77,12 @@ void Ball::move(){
     if (game->allblocksremoved()) {
         qDebug() << "Player wins!";
         if (levels<=5){
-           QMessageBox msgbox;
+            QMessageBox msgbox;
             msgbox.setWindowTitle("Level Over");
             msgbox.setText("You've completed the level.");
             msgbox.addButton(QMessageBox::Close);
             QPushButton *nextLevelButton = new QPushButton("Next Level");
-            connect(nextLevelButton, &QPushButton::clicked, this, Game::nextlevel);
+            connect(nextLevelButton, &QPushButton::clicked, this, Game::nextlevel);//next level function
             msgbox.addButton(nextLevelButton, QMessageBox::AcceptRole);
 
             msgbox.exec();

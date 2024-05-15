@@ -1,0 +1,11 @@
+release/ball.o
+release/blocks.o
+release/game.o
+release/health.o
+release/main.o
+release/mainmenu.o
+release/player.o
+release/score.o
+release/qrc_Resources.o
+release/moc_ball.o
+release/moc_mainmenu.o

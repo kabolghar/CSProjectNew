@@ -6,7 +6,7 @@
 #include "blocks.h"
 #include <QScreen>
 
-
+extern int levels=1;
 Game::Game(QWidget *parent) : QGraphicsView(parent) {
     scene = new QGraphicsScene(0, 0, 67*3*levels, 800); // 600 horizontally, 800 vertically
     scene->setBackgroundBrush(QBrush(Qt::black));
@@ -57,11 +57,12 @@ bool Game::allblocksremoved(){
     // If no blocks are found, return true
     return true;
 }
-void Game::nextlevel(){
+void Game::nextlevel() {
     levels++;
-    //close game instance
-    //open a new one
+
 }
+
+
 void Game::exitgame(){
     //handle exiting the game
 }
